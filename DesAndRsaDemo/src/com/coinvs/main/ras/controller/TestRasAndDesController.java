@@ -60,6 +60,40 @@ public class TestRasAndDesController {
 	}
 	
 	/**
+	 * 将Des和Rsa结合使用：将desKey及关键字段（用户id）使用rsa公钥加密，传到服务器
+	 * 服务器使用rsa私钥解密，获得desKey及用户id，并根据id查找用户余额，使用des加密后返回给客户端
+	 * @param userId 用户id
+	 * @param desKey客户端传来的des加密的key
+	 * @return 用户的一些关键信息
+	 */
+	@RequestMapping("testRsaAndDes.do")
+	@ResponseBody
+	public TotalNote testRsaAndDes(String userId,String desKey){
+		System.out.println("收到请求！");
+		TotalNote note = new TotalNote();
+		try{
+			System.out.println(userId);
+			//使用私钥解密
+			userId = RSA.decryptByPrivateKey(userId);
+			desKey = RSA.decryptByPrivateKey(desKey);
+			
+			//查找数据库获取用户，账户余额等关键字段，使用des进行加密
+			String account = "10000.0";
+			account = DES.encryptDES(account, desKey);
+			
+			note.setError_code(StatusCode.SUCCESS_CODE);
+			note.setError_message("获取数据成功！");
+			note.setData(account);
+			return note;
+		}catch(Exception e){
+			e.printStackTrace();
+			note.setError_code(StatusCode.ERROR_CODE);
+			note.setError_message(StatusCode.ERROR_MESSAGE);
+			return note;
+		}  
+	}
+	
+	/**
 	 * 测试MD5加密
 	 * 请求url：http://localhost:8080/DesAndRsaDemo/testMd5.do?password=..........&md5=..........
 	 * @param md5

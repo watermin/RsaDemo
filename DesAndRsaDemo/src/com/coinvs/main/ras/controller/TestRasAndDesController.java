@@ -72,7 +72,7 @@ public class TestRasAndDesController {
 		TotalNote note = new TotalNote();
 		try{
 			System.out.println("使用md5加密后的:"+md5);
-			String md5Str = MD5.getMD5Str(password);
+			String md5Str = MD5.getMD5Code(password);
 			if(md5Str.equals(md5)){
 				System.out.println("密码验证成功！");
 			}else{

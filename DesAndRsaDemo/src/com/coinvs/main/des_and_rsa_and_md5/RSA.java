@@ -27,23 +27,23 @@ import sun.misc.BASE64Encoder;
   
 public final class RSA {  
 	 private static final String DEFAULT_PUBLIC_KEY= 
-	"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwSsfHB4SBgOiKX0oFkgukZsCTNZ4/SHnyncvE"+
-   "ib1fh6KvEJ3AfoA4nREKzMfaxn2t6dJAW1kY0Z8T4Xhfq/JHKeY+ro7TbsE9JI2FEOjS4G+4VRTt"+
-    "BDg+bmN2520CK3AE4xdkccs1O5mda9hGU4V3YJVXs47NFa0M/D5Es78X6wIDAQAB";
+	"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCu2ro7nroyw+09XLJlPGSHSdBkR6HRzyqfSqW3"+
+	"5bFfOZq1Jfk2QluoxxPjg9OfOabE/VZqS8HRoF/9m4Up4S+Mo28yshU0yd7vuDtEubJ16TY/fGYt"+
+	"gBWCM1qRw8YBVrAn0RBB5qQ/IZzv52y6h5Mq7jXc0w52svk2ZhZJTKUZzwIDAQAB";
 	 
 	 private static final String DEFAULT_PRIVATE_KEY=  
-	"MIICeQIBADANBgkqhkiG9w0BAQEFAASCAmMwggJfAgEAAoGBALBKx8cHhIGA6IpfSgWSC6RmwJM1"+
-	"nj9IefKdy8SJvV+Hoq8QncB+gDidEQrMx9rGfa3p0kBbWRjRnxPheF+r8kcp5j6ujtNuwT0kjYUQ"+
-	"6NLgb7hVFO0EOD5uY3bnbQIrcATjF2RxyzU7mZ1r2EZThXdglVezjs0VrQz8PkSzvxfrAgMBAAEC"+
-	"gYEAju/C9VPaEuqDIRZLvSKCAAUz5OfXa/YGsjlQ6wTHH7qopArz7QxkSALJu5j3/iFr62OnDnlC"+
-	"T0Y/Fe59HA0dPUuZ8utGoXRSLQsFNwhE2LuM+aXrqm8CY5wKPloohe5B9Bc6QiWQzcfxSCkg6D8i"+
-	"q9Gp5LIwKk0mZ0Fb1mXQt1kCQQD2qu2ItkUoBSCRhSRj5C7Mf4P58/GRsVZn71f7SgUd2UDwr+6z"+
-	"S/7M65Ry4y03PFlxbQTItGIaVURSkIdp/ZMVAkEAtvY836xG+pegCi3L9uiHiSQIYo+jmjOuivEo"+
-	"jRaSoCPihPU9QJD+Q3qYeLkyh1YJzxUZcjyu0Z4wMnQneQC+/wJBANZiuRCZWoHt8uCHV5l6OTKD"+
-	"obEc1FhMSU0MOOuu6cOHj2mhf1VWN57jIaK40BOx4As1NXM7VAiPE1KvSwJT4gECQQCflAuqJy/N"+
-	"V7xNxH32v/+fHN93X8MZNuSQ6SAuVrbSmBn1T5T6ILy0jFQ6T4WDxwZNKSEFo2nzCJ8PEoJvJrhv"+
-	"AkEArocN71x1SpyCpLpr9IVNhX19tCPjrsyzivmU2eCaJ6KYBr5FiA5stKtytkyr2eXfiVzs/JG4"+
-	"PMYSsJdJBLbEcQ==";
+	"MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK7aujueujLD7T1csmU8ZIdJ0GRH"+
+	"odHPKp9KpbflsV85mrUl+TZCW6jHE+OD0585psT9VmpLwdGgX/2bhSnhL4yjbzKyFTTJ3u+4O0S5"+
+	"snXpNj98Zi2AFYIzWpHDxgFWsCfREEHmpD8hnO/nbLqHkyruNdzTDnay+TZmFklMpRnPAgMBAAEC"+
+	"gYBaONJPYR+CgkYvm10Rj4/vns7Ab5W3xMWhW8sWkJZtJDQHtIhazvKsq8w/YQ4Y4o6CppWoU162"+
+	"46GkIlMbwO3fMAxKtTwl68Sf5MgUDI342XP5mWjuzcGL2TOa2L1MRJZ3Rv81/STMm7uZn7mtlCUH"+
+	"iEZvd/61SYXpH0Y+2yyTQQJBAOrrNmoovsHzoj/faQ4ix6yC5x/K71QbXIXfV7u1S6ftpaRbHcGy"+
+	"s7S5g6ixKBkiYwVptOX4+gnumnh5QgLB2g0CQQC+i6f3M6jIjQnuhH1WovWVsRTLDeMYSp+R/WgW"+
+	"S+cG+r4HtwqdQt4XAiX3fE3UeDPK5Qyfwju8J7hLAaNJzRhLAkAkU1bIt6A3sYrHQa6nBu3FWUCQ"+
+	"A/taEBkQgma4meInB3JzpbtGNnHfYkhfj3VZ3Z1eOuhEH2nam1C7jFSOxJcJAkBXFXyufe2lus/P"+
+	"Mr4V2mRjBYt7Qd2IPJKxJh9sEUSE7BPtcrpnJShbW5/+e9EWSdlh4UzjtuGWHJEdtqHqGNIBAkEA"+
+	"iUXjC7DHnEAdetaqZQwEOvZT8EZiMvRCXZYxdRqhf8C/hVQuqHM3VO/dvEWR3xrKU68J18WqOvtY"+
+	"yrARcHMPIw==";
 	 
     /**  
      * 私钥  
@@ -356,8 +356,8 @@ public final class RSA {
         	System.out.println("解密："+plaineText);
         	long decryptend = System.currentTimeMillis();
         	System.out.println("decrypt use time:"+(decryptend-decryptstart));
-        	 System.out.println("===========获取私钥公钥============");
-//             genKeyPair();
+	    	System.out.println("===========获取私钥公钥============");
+	        genKeyPair();
         } catch (Exception e) {    
             System.err.println(e.getMessage());    
         }   

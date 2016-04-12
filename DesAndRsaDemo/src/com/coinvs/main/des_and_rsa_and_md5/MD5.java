@@ -49,7 +49,7 @@ public class MD5 {
      * @param strObj
      * @return
      */
-    public static String getMD5Str(String str) {
+    public static String getMD5Code(String str) {
         String resultString = null;
         try {
         	//将给定字符串追加一个静态字符串，以提高复杂度
@@ -65,7 +65,7 @@ public class MD5 {
     public static void main(String[]args){
     	String time = "haha123456";
     	System.out.println("明文："+time);
-    	String md5 = getMD5Str(time);
+    	String md5 = getMD5Code(time);
     	System.out.println("密文："+md5);
     }
 }

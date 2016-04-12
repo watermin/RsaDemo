@@ -29,11 +29,11 @@ public class DES {
       }
   
   public static void main(String[]args) throws Exception{
-	  String plaintext = "hahaGG123呵呵";
-	    String ciphertext = DES.encryptDES(plaintext, DES.PASSWORD_CRYPT_KEY);
-	    System.out.println("明文：" + plaintext);
-	    System.out.println("密钥：" + DES.PASSWORD_CRYPT_KEY);
-	    System.out.println("密文：" + ciphertext);
-	    System.out.println("解密后：" + DES.decryptDES(ciphertext, DES.PASSWORD_CRYPT_KEY));
+	  String plaintext = "hahaGG123哈哈";
+		String ciphertext = DES.encryptDES(plaintext, DES.PASSWORD_CRYPT_KEY);
+		System.out.println("明文：" + plaintext);
+		System.out.println("密钥：" + DES.PASSWORD_CRYPT_KEY);
+		System.out.println("密文：" + ciphertext);
+		System.out.println("解密后：" + DES.decryptDES(ciphertext, DES.PASSWORD_CRYPT_KEY));
   }
 }

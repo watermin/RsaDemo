@@ -29,7 +29,7 @@ public class DES {
       }
   
   public static void main(String[]args) throws Exception{
-	  String plaintext = "hahaGG123哈哈";
+	    String plaintext = "hahaGG123哈哈";
 		String ciphertext = DES.encryptDES(plaintext, DES.PASSWORD_CRYPT_KEY);
 		System.out.println("明文：" + plaintext);
 		System.out.println("密钥：" + DES.PASSWORD_CRYPT_KEY);

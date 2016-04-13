@@ -31,7 +31,7 @@ public final class RSA {
 	"5bFfOZq1Jfk2QluoxxPjg9OfOabE/VZqS8HRoF/9m4Up4S+Mo28yshU0yd7vuDtEubJ16TY/fGYt"+
 	"gBWCM1qRw8YBVrAn0RBB5qQ/IZzv52y6h5Mq7jXc0w52svk2ZhZJTKUZzwIDAQAB";
 	 
-	 private static final String DEFAULT_PRIVATE_KEY=  
+	 private static final String DEFAULT_PRIVATE_KEY=
 	"MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK7aujueujLD7T1csmU8ZIdJ0GRH"+
 	"odHPKp9KpbflsV85mrUl+TZCW6jHE+OD0585psT9VmpLwdGgX/2bhSnhL4yjbzKyFTTJ3u+4O0S5"+
 	"snXpNj98Zi2AFYIzWpHDxgFWsCfREEHmpD8hnO/nbLqHkyruNdzTDnay+TZmFklMpRnPAgMBAAEC"+
@@ -200,7 +200,11 @@ public final class RSA {
             throw new Exception("私钥输入流为空");    
         }    
     }    
-    
+    /**
+     * 从字符串中加载私钥
+     * @param privateKeyStr
+     * @throws Exception
+     */
     private static void loadPrivateKey(String privateKeyStr) throws Exception{    
         try {    
             BASE64Decoder base64Decoder= new BASE64Decoder();    
@@ -252,6 +256,37 @@ public final class RSA {
     }    
     
     /**  
+     * 私钥加密过程  
+     * @param publicKey 公钥  
+     * @param plainTextData 明文数据  
+     * @return  
+     * @throws Exception 加密过程中的异常信息  
+     */    
+    private static byte[] encryptByPrivate(RSAPrivateKey privateKey, byte[] plainTextData) throws Exception{    
+        if(privateKey== null){    
+            throw new Exception("加密公钥为空, 请设置");    
+        }    
+        Cipher cipher= null;    
+        try {    
+            cipher= Cipher.getInstance("RSA","BC");//, new BouncyCastleProvider());    
+            cipher.init(Cipher.ENCRYPT_MODE, privateKey);    
+            byte[] output= cipher.doFinal(plainTextData);    
+            return output;    
+        } catch (NoSuchAlgorithmException e) {    
+            throw new Exception("无此加密算法");    
+        } catch (NoSuchPaddingException e) {    
+            e.printStackTrace();    
+            return null;    
+        }catch (InvalidKeyException e) {    
+            throw new Exception("加密公钥非法,请检查");    
+        } catch (IllegalBlockSizeException e) {    
+            throw new Exception("明文长度非法");    
+        } catch (BadPaddingException e) {    
+            throw new Exception("明文数据已损坏");    
+        }    
+    }    
+    
+    /**  
      * 私钥解密过程  
      * @param privateKey 私钥  
      * @param cipherData 密文数据  
@@ -266,6 +301,36 @@ public final class RSA {
         try {    
             cipher= Cipher.getInstance("RSA","BC");//, new BouncyCastleProvider());    
             cipher.init(Cipher.DECRYPT_MODE, privateKey);    
+            byte[] output= cipher.doFinal(cipherData);    
+            return output;    
+        } catch (NoSuchAlgorithmException e) {    
+            throw new Exception("无此解密算法");    
+        } catch (NoSuchPaddingException e) {    
+            e.printStackTrace();    
+            return null;    
+        }catch (InvalidKeyException e) {    
+            throw new Exception("解密私钥非法,请检查");    
+        } catch (IllegalBlockSizeException e) {    
+            throw new Exception("密文长度非法");    
+        } catch (BadPaddingException e) {    
+            throw new Exception("密文数据已损坏");    
+        }           
+    }    
+    /**  
+     * 公钥解密过程  
+     * @param privateKey 私钥  
+     * @param cipherData 密文数据  
+     * @return 明文  
+     * @throws Exception 解密过程中的异常信息  
+     */    
+    private static byte[] decryptByPublicKey(RSAPublicKey publicKey, byte[] cipherData) throws Exception{    
+        if (publicKey== null){    
+            throw new Exception("解密私钥为空, 请设置");    
+        }    
+        Cipher cipher= null;    
+        try {    
+            cipher= Cipher.getInstance("RSA","BC");//, new BouncyCastleProvider());   
+            cipher.init(Cipher.DECRYPT_MODE, publicKey);    
             byte[] output= cipher.doFinal(cipherData);    
             return output;    
         } catch (NoSuchAlgorithmException e) {    
@@ -318,6 +383,21 @@ public final class RSA {
     }
     
     /**
+     * decrypt String by Ras(sub) by publicKey
+     * @return success:return decode original  
+     */
+    public static String decryptByPublicKey(String ciphertext) throws Exception{
+        try {
+        	BASE64Decoder decoder = new BASE64Decoder();
+	        byte[] cipher =  decoder.decodeBuffer(ciphertext);
+	        byte[] plainText = decryptByPublicKey(getPublicKey(), cipher);
+			return new String(plainText,"utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+    }
+    /**
      * encrypt String by Ras(add)  by publicKey
      * @return success:return encrypt Base64 String  ;  fail:"fail"
      * @throws Exception 
@@ -335,29 +415,58 @@ public final class RSA {
 		}  
     }
     
+    /**
+     * encrypt String by Ras(add)  by PrivateKey
+     * @return success:return encrypt Base64 String 
+     * @throws Exception 
+     */
+    public static String encryptByPrivateKey(String plaintext) throws Exception{
+         try {
+        	 BASE64Encoder encoder = new BASE64Encoder();
+        	 //encrypt process
+        	 byte[] cipher = encryptByPrivate(getPrivateKey(), plaintext.getBytes("utf-8"));    
+        	 //byte[] to String by Base64 
+			 return encoder.encode(cipher);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}  
+    }
+    
     public static void main(String[] args){    
     	//测试字符串    
         String encryptStr= "12345678";    
         try {    
-        	
-//        	System.out.println("=============公钥加密，私钥解密！===============");
-//        	 //公钥加密
+        	System.out.println("=============私钥加密，公钥解密！===============");
+        	//私钥加密
             System.out.println("明文："+encryptStr);
             long encryptstart = System.currentTimeMillis();
-            String cipherStr = encryptByPublicKey(encryptStr);
-            System.out.println("公钥加密密文："+cipherStr);
+            String cipherStr = encryptByPrivateKey(encryptStr);
+            System.out.println("私钥加密密文："+cipherStr);
             long encryptend = System.currentTimeMillis();
-            System.out.println("encrypt use time:"+(encryptend-encryptstart));
-            System.out.println("============================");
-            
-            //私钥解密
+            System.out.println("encrypt use time:"+(encryptend-encryptstart)+"ms");
+            //公钥钥解密
             long decryptstart = System.currentTimeMillis();
-            String plaineText = decryptByPrivateKey(cipherStr);
+            String plaineText = decryptByPublicKey(cipherStr);
         	System.out.println("解密："+plaineText);
         	long decryptend = System.currentTimeMillis();
-        	System.out.println("decrypt use time:"+(decryptend-decryptstart));
-	    	System.out.println("===========获取私钥公钥============");
-	        genKeyPair();
+        	System.out.println("decrypt use time:"+(decryptend-decryptstart)+"ms");
+        	System.out.println("=============公钥加密，私钥解密！===============");
+        	//公钥加密
+//            System.out.println("明文："+encryptStr);
+//            encryptstart = System.currentTimeMillis();
+//            cipherStr = encryptByPublicKey(encryptStr);
+//            System.out.println("公钥加密密文："+cipherStr);
+//            encryptend = System.currentTimeMillis();
+//            System.out.println("encrypt use time:"+(encryptend-encryptstart)+"ms");
+//            //私钥解密
+//            decryptstart = System.currentTimeMillis();
+//            plaineText = decryptByPrivateKey(cipherStr);
+//        	System.out.println("解密："+plaineText);
+//        	decryptend = System.currentTimeMillis();
+//        	System.out.println("decrypt use time:"+(decryptend-decryptstart)+"ms");
+//	    	System.out.println("===========获取私钥公钥============");
+//	        genKeyPair();//获取密钥对
         } catch (Exception e) {    
             System.err.println(e.getMessage());    
         }   

@@ -110,7 +110,7 @@ public class AES {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		String content = "test";   
+		String content = "Hello!12345你好";
 		String password = "12345678";   
 		//加密   
 		System.out.println("加密前：" + content);   

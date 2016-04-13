@@ -453,20 +453,20 @@ public final class RSA {
         	System.out.println("decrypt use time:"+(decryptend-decryptstart)+"ms");
         	System.out.println("=============公钥加密，私钥解密！===============");
         	//公钥加密
-//            System.out.println("明文："+encryptStr);
-//            encryptstart = System.currentTimeMillis();
-//            cipherStr = encryptByPublicKey(encryptStr);
-//            System.out.println("公钥加密密文："+cipherStr);
-//            encryptend = System.currentTimeMillis();
-//            System.out.println("encrypt use time:"+(encryptend-encryptstart)+"ms");
-//            //私钥解密
-//            decryptstart = System.currentTimeMillis();
-//            plaineText = decryptByPrivateKey(cipherStr);
-//        	System.out.println("解密："+plaineText);
-//        	decryptend = System.currentTimeMillis();
-//        	System.out.println("decrypt use time:"+(decryptend-decryptstart)+"ms");
-//	    	System.out.println("===========获取私钥公钥============");
-//	        genKeyPair();//获取密钥对
+            System.out.println("明文："+encryptStr);
+            encryptstart = System.currentTimeMillis();
+            cipherStr = encryptByPublicKey(encryptStr);
+            System.out.println("公钥加密密文："+cipherStr);
+            encryptend = System.currentTimeMillis();
+            System.out.println("encrypt use time:"+(encryptend-encryptstart)+"ms");
+            //私钥解密
+            decryptstart = System.currentTimeMillis();
+            plaineText = decryptByPrivateKey(cipherStr);
+        	System.out.println("解密："+plaineText);
+        	decryptend = System.currentTimeMillis();
+        	System.out.println("decrypt use time:"+(decryptend-decryptstart)+"ms");
+	    	System.out.println("===========获取私钥公钥============");
+	        genKeyPair();//获取密钥对
         } catch (Exception e) {    
             System.err.println(e.getMessage());    
         }   
